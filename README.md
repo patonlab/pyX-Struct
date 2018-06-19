@@ -17,7 +17,7 @@ specified, the user will later be given the option to add measurements.
 A structure search may still take place with no parameters. User has the 
 option to export the data in a .CSV file.
 	
-##Optional Arguments
+## Optional Arguments
 * SMILES string (encased in quotations if illegal characters are involved)
 * d (distance measurement) followed by two atom indices (also optional)
 * a (angle measurement) followed by three atom indices (also optional)
@@ -25,34 +25,33 @@ option to export the data in a .CSV file.
 * s (save data) exports data as a c2m file 
 * lim (search hit limit) followed by a number to limit the number of search hits
 	
-##Sample Arguments
+## Sample Arguments
+Measures two torsion angles with specified indices:
 ```
 'S=C([NH]c1ccccc1)[NH]c1ccccc1' t 0 1 2 3 t 0 1 9 10
 ```
-  *measures two torsion angles with specified indices*
+Measures two torsion angles, user needs to later specify indices:
 ```
 'O=C([NH]c1ccccc1)[NH]c1ccccc1' t t lim 5000
 ```
-  *measures two torsion angles, user needs to specify indices*
+Measures distance between CC and angle between CCO:
 ```
 CCO d 0 1 a 0 1 2 
 ```
-  *measures distance between CC and angle between CCO*
+Removes a search limit and exports the resulting structural data:
 ```
 'C1=CC2=NC1=CC3=NC(=CC4=NC(=CC5=NC(=C2)C=C5)C=C4)C=C3' lim 0 s 
 
 ```
-  *removes a limit for the search and saves the save data*
   
-  
-##Known Bugs
+## Known Bugs
 * Need to find out how to access indices of hydrogen atoms given a SMILES string
 * Need to add error checking for indices/smiles inputs
 * UserWarning occurs when generating the graph since 'normed' kwarg is depricated.
 * Need to work on making the plot more versitile graphing distances/angles, currently works best for comparing torsion angles.
 * Colorbar ticks are not accurate 
 	
-##Other Notes
+## Other Notes
 * If a measurement is not specified or indices of a measurement are not given,
 	interaction with the terminal is required.
 * The default search limit is 1000 structures.
