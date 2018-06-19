@@ -1,7 +1,9 @@
 import matplotlib
-matplotlib.use("TkAgg") #to prevent 'NSInvalidArgumentException' when importing both Tk and matplotlib 
-import Tkinter as tk
-from tkFileDialog import asksaveasfilename
+# matplotlib.use("TkAgg") #to prevent 'NSInvalidArgumentException' when importing both Tk and matplotlib 
+# import Tkinter as tk
+# from tkFileDialog import asksaveasfilename
+import datetime
+import os
 import sys
 import numpy as np
 import pandas as pd
@@ -9,7 +11,6 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from ccdc.search import SMARTSSubstructure, SubstructureSearch, MoleculeSubstructure
-
 
 #for testing
 search = True 			#True: the program will perform a search on the input SMILES
@@ -273,13 +274,18 @@ print 'Found ' + structData
 #Export data 
 #decide what kind of file to export for now we can save the data in a text file?
 if saveData:
-	root=tk.Tk()
-	root.withdraw()
+	# root=tk.Tk()
+	# root.withdraw()
+	# filename = asksaveasfilename(defaultextension='.CSV')
+	# hitData.to_csv(filename)
+	
 	# filename = asksaveasfilename(defaultextension='.c2m')
 	# if filename != '':
 	# 	hits.write_c2m_file(filename)
-	filename = asksaveasfilename(defaultextension='.CSV')
+	
+	filename = os.getcwd() + '/search_' + datetime.datetime.now().strftime ("%H:%M:%S") + '.CSV'
 	hitData.to_csv(filename)
+	print 'file saved to: ' + filename 
 
 #ask user which data to display 
 if len(hitData.columns) == 3:
