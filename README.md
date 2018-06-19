@@ -1,2 +1,59 @@
 # pyX-Struct
+
 Scrape Geometric X-ray Data from the Cambridge Structural Database 
+
+## Getting Started 
+
+The program is run from Terminal or Unix Shell in a python environment that
+contains the Cambridge Crystallographic Data Centre library (CCDC). The program
+may take in in a SMILES string along with additional optional arguments that 
+can measure the distance between two atoms, an angle between three atoms, or a 
+torsion angle between four atoms by searching the Cambridge Structural
+Database of crystal structures.
+If the measurement type and indices of the involved atoms are known, they
+may be included in the command argument. If the indices are not known, the
+types of measurement may still be specified. If no measurements are 
+specified, the user will later be given the option to add measurements.
+A structure search may still take place with no parameters. User has the 
+option to export the data in a .CSV file.
+	
+##Optional Arguments
+* SMILES string (encased in quotations if illegal characters are involved)
+* d (distance measurement) followed by two atom indices (also optional)
+* a (angle measurement) followed by three atom indices (also optional)
+* t (torsion angle measurement) followed by three atom indices (also optional)
+* s (save data) exports data as a c2m file 
+* lim (search hit limit) followed by a number to limit the number of search hits
+	
+##Sample Arguments
+```
+'S=C([NH]c1ccccc1)[NH]c1ccccc1' t 0 1 2 3 t 0 1 9 10
+```
+  *measures two torsion angles with specified indices*
+```
+'O=C([NH]c1ccccc1)[NH]c1ccccc1' t t lim 5000
+```
+  *measures two torsion angles, user needs to specify indices*
+```
+CCO d 0 1 a 0 1 2 
+```
+  *measures distance between CC and angle between CCO*
+```
+'C1=CC2=NC1=CC3=NC(=CC4=NC(=CC5=NC(=C2)C=C5)C=C4)C=C3' lim 0 s 
+
+```
+  *removes a limit for the search and saves the save data*
+  
+  
+##Known Bugs
+* Need to find out how to access indices of hydrogen atoms given a SMILES string
+* Need to add error checking for indices/smiles inputs
+* UserWarning occurs when generating the graph since 'normed' kwarg is depricated.
+* Need to work on making the plot more versitile graphing distances/angles, currently works best for comparing torsion angles.
+* Colorbar ticks are not accurate 
+	
+##Other Notes
+* If a measurement is not specified or indices of a measurement are not given,
+	interaction with the terminal is required.
+* The default search limit is 1000 structures.
+	
