@@ -1,4 +1,3 @@
-import matplotlib
 # matplotlib.use("TkAgg") #to prevent 'NSInvalidArgumentException' when importing both Tk and matplotlib 
 # import Tkinter as tk
 # from tkFileDialog import asksaveasfilename
@@ -10,7 +9,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-from ccdc.search import SMARTSSubstructure, SubstructureSearch, MoleculeSubstructure
+from ccdc.search import SMARTSSubstructure, SubstructureSearch #, MoleculeSubstructure
 
 #for testing
 search = True 			#True: the program will perform a search on the input SMILES
@@ -310,7 +309,7 @@ if graph:
 	sns.set(style='white', color_codes=True)
 	g = sns.jointplot(x=xData, y=yData,data=hitData, kind="hex",color='b', gridsize=30,
 		stat_func=None, space=0, ratio=5 ,marginal_kws=dict(bins=50, color='r'), 
-		joint_kws=dict(bins=10), xlim=(-15,195), ylim=(-15,195))
+		 xlim=(-15,195), ylim=(-15,195))
 	g.set_axis_labels(xData + ' / degrees',yData + ' / degrees')
 	anText = "Data from " + structData # add timestamp 
 	g.fig.text(0.15, 0.05, anText, fontsize = 10)	
@@ -320,7 +319,7 @@ if graph:
 	plt.setp(g.ax_marg_y.patches, color='g')
 	plt.subplots_adjust(left=0.2, right=0.9, top=0.9, bottom=0.2) 
 	cax = g.fig.add_axes([.9, .4, .01, .25])  # x, y, width, height
-	c = plt.colorbar(cax=cax)
+	plt.colorbar(cax=cax)
 	plt.show()
 
 	#matplotlib's hexplot (colorbar adjusts, no histograms)
