@@ -1,6 +1,5 @@
-# matplotlib.use("TkAgg") #to prevent 'NSInvalidArgumentException' when importing both Tk and matplotlib 
-# import Tkinter as tk
-# from tkFileDialog import asksaveasfilename
+from __future__ import print_function
+from builtins import input
 import datetime
 import os
 import sys
@@ -9,7 +8,9 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-from ccdc.search import SMARTSSubstructure, SubstructureSearch #, MoleculeSubstructure
+from ccdc.search import SMARTSSubstructure, SubstructureSearch 
+from ccdc.io import csd_version
+
 
 #for testing
 search = True 			#True: the program will perform a search on the input SMILES
@@ -34,17 +35,16 @@ def addDist(atom = None, askIndex = False):
 	else: 
 		#print molecule to user so they can see indices
 		for i in substructure.atoms:
-			print i.index, i
+			print(i.index, i)
 		#obtain values from user and add measurement search
-		atom_i = raw_input("Enter two indices to measure a distance: ")
-		atom_i = map(int, atom_i.split())
+		atom_i = input("Enter two indices to measure a distance: ")
+		atom_i = list(map(int, atom_i.split()))
 		substructure_search.add_distance_measurement(name,
 			sub_id, atom_i[0], sub_id, atom_i[1])
 	
-	print 'Distance', name, "added to the search."
+	print('Distance', name, "added to the search.")
 	measurement[0][1] += 1
-		
-		
+				
 def addAngle(atom = None, askIndex = False):
 	global substructure, substructure_search, sub_id, measurement
 	name = 'A'+str(int(measurement[1][1]))
@@ -57,14 +57,14 @@ def addAngle(atom = None, askIndex = False):
 	else: 
 		#print molecule to user so they can see indices
 		for i in substructure.atoms:
-			print i.index, i
+			print(i.index, i)
 		#obtain values from user and add measurement search
-		atom_i = raw_input("Enter three indices to measure an angle: ")
-		atom_i = map(int, atom_i.split())
+		atom_i = input("Enter three indices to measure an angle: ")
+		atom_i = list(map(int, atom_i.split()))
 		substructure_search.add_angle_measurement(name,
 			sub_id, atom_i[0], sub_id, atom_i[1], sub_id, atom_i[2])
 	
-	print 'Angle', name, "added to the search."		
+	print('Angle', name, "added to the search.")		
 	measurement[1][1] += 1
 		
 def addTor(atom = None, askIndex = False):
@@ -79,22 +79,20 @@ def addTor(atom = None, askIndex = False):
 	else: 
 		#print molecule to user so they can see indices
 		for i in substructure.atoms:
-			print i.index, i
+			print(i.index, i)
 		#obtain values from user and add measurement search
-		atom_i = raw_input("Enter four indices to measure a dihedral: ")
-		atom_i = map(int, atom_i.split())
+		atom_i = input("Enter four indices to measure a dihedral: ")
+		atom_i = list(map(int, atom_i.split()))
 		substructure_search.add_torsion_angle_measurement(name,
 			sub_id, atom_i[0], sub_id, atom_i[1], sub_id, atom_i[2],sub_id, atom_i[3])
 	
-	print 'Torsion', name, "added to the search."			
+	print('Torsion', name, "added to the search.")			
 	measurement[2][1] += 1
 
 def checkMeasurement(arg):
 	global graph, printData, maxHits, saveData
 	#check for distance measurement
 	if 'd' in arg:
-		graph = False
-		printData = True
 		dIndices = [j for j, k in enumerate(arg) if k == 'd']
 		#keep track of how many specified distances we want to measure
 		measurement[0][0] = len(dIndices)
@@ -157,11 +155,11 @@ def checkMeasurement(arg):
 			if isinstance(lim, int):
 				maxHits = lim
 			else:
-				lim = int(raw_input("Enter a number for max number of hits for the search: "))
+				lim = int(input("Enter a number for max number of hits for the search: "))
 				maxHits = lim
 		except (ValueError, IndexError):
 			#ask for lim
-			lim = int(raw_input("Enter a number for max number of hits for the search: "))
+			lim = int(input("Enter a number for max number of hits for the search: "))
 			maxHits = lim
 			
 	if 's' in arg:
@@ -169,7 +167,7 @@ def checkMeasurement(arg):
 			
 #if the user didn't pass any arguments, ask for a SMILES string
 if len(sys.argv) == 1:
-	smiles = raw_input("Enter a SMILES string: ")
+	smiles = input("Enter a SMILES string: ")
 	#if user put quotations, remove them
 	if smiles[0] == ("'" or '"'):
 		smiles = smiles[1:]
@@ -191,11 +189,11 @@ if len(sys.argv) > 2:
 	#lim or save specified but measurements arent 
 	if ('d' and 'a' and 't') not in sys.argv:
 		#check if the user wants to search for measurements
-		ans = raw_input('Search for any specific measurements on this molecule? (y/n): ')
+		ans = input('Search for any specific measurements on this molecule? (y/n): ')
 		if ans == 'y':
 			#ask which one, run method
-			ans = raw_input('Which measurements? \nEnter d for distance, a for angle, t for torsion angle: ')
-			ans = map(str, ans.split())
+			ans = input('Which measurements? \nEnter d for distance, a for angle, t for torsion angle: ')
+			ans = list(map(str, ans.split()))
 			checkMeasurement(ans)
 		else: 
 			#user has no measurement parameters, dont graph anything and print the IDs
@@ -203,11 +201,11 @@ if len(sys.argv) > 2:
 			printData = True
 else:
 	#check if the user wants to search for measurements
-	ans = raw_input('Search for any specific measurements on this molecule? (y/n): ')
+	ans = input('Search for any specific measurements on this molecule? (y/n): ')
 	if ans == 'y':
 		#ask which one, run method
-		ans = raw_input('Which measurements? \nEnter d for distance, a for angle, t for torsion angle: ')
-		ans = map(str, ans.split())
+		ans = input('Which measurements? \nEnter d for distance, a for angle, t for torsion angle: ')
+		ans = list(map(str, ans.split()))
 		checkMeasurement(ans)
 	else: 
 		#user has no measurement parameters, dont graph anything and print the IDs
@@ -222,15 +220,15 @@ if search == False:
 if maxHits == 0:
 	searchLimit = False
 if searchLimit:
-	print 'Searching for substructures with a limit of ' + str(maxHits) + ' max structures...'
+	print('Searching for substructures with a limit of ' + str(maxHits) + ' max structures...')
 	hits = substructure_search.search(max_hit_structures=maxHits)
 else:
-	print 'Searching for substructures...'
+	print('Searching for substructures...')
 	hits = substructure_search.search()
 
 #if no hits, end program
 if len(hits) == 0:
-		print "No substructures found."
+		print("No substructures found.")
 		exit()
 
 #determine names of columns for the DataFrame
@@ -264,74 +262,69 @@ for i in np.arange(len(measureHits)):
 	
 #optionally print data to user
 if printData:
-	print hitData.to_string()
+	print(hitData.to_string())
 		
 #print data info to user 		
 structData = str(len(hitData.Identifier)) + ' matching substructures in '+ str(len(hitData.Identifier.unique())) + ' different molecules.'
-print 'Found ' + structData
+print('Found ' + structData)
 
 #Export data 
-#decide what kind of file to export for now we can save the data in a text file?
 if saveData:
-	# root=tk.Tk()
-	# root.withdraw()
-	# filename = asksaveasfilename(defaultextension='.CSV')
-	# hitData.to_csv(filename)
-	
-	# filename = asksaveasfilename(defaultextension='.c2m')
-	# if filename != '':
-	# 	hits.write_c2m_file(filename)
-	
 	filename = os.getcwd() + '/search_' + datetime.datetime.now().strftime ("%H:%M:%S") + '.CSV'
 	hitData.to_csv(filename)
-	print 'file saved to: ' + filename 
+	print('file saved to: ' + filename) 
 
 #ask user which data to display 
 if len(hitData.columns) == 3:
 	xData = hitData.columns[1]
 	yData = hitData.columns[2]
 elif len(hitData.columns) > 3:
-	print 'Which data would you like to display? (enter two indices):'
+	print('Which data would you like to display? (enter two indices, # #):')
+	print('i | Measurement')
+	#only show angular data
+	#decide title of graph
 	for i in np.arange(len(columns[1:])):
-		print i, columns[i+1]
-	ans = raw_input()
-	ans = map(int, ans.split())
-	xData = hitData.columns[columns[ans[0]+1]]
-	yData = hitData.columns[columns[ans[1]+1]]
+		if columns[i+1][0] != 'D':
+			print(str(i) + " | " + str(columns[i+1]))
+	ans = input()
+	ans = list(map(int, ans.split()))
+	xData = hitData.columns[ans[0]+1]
+	yData = hitData.columns[ans[1]+1]
+	print('Graphing \'' + xData + '\' vs \'' + yData + '\'...')
 elif len(hitData.columns) < 3:
 	graph = False
+
 	
 if graph:
+	if xData[0] == 'T' and yData[0] == 'T':
+		title = 'Dihedral Angle Magnitude Comparison'
+	elif xData[0] == 'A' and yData[0] == 'A':
+		title = 'Angle Magnitude Comparison'
+	elif xData[0] == ('T' or 'A') and yData[0] == ('T' or 'A') :
+		title = 'Dihedral Angle vs. Angle Magnitude Comparison'
+	else: 
+		title = 'Angular Magnitude Comparison'
 	#Joint plot Creator
 		#gridsize: higher = smaller hexagons
 		#joint_kws bins: lower = darker hexagons
 		#marginal_kws bins: lower = thicker histograms
 	sns.set(style='white', color_codes=True)
 	g = sns.jointplot(x=xData, y=yData,data=hitData, kind="hex",color='b', gridsize=30,
-		stat_func=None, space=0, ratio=5 ,marginal_kws=dict(bins=50, color='r'), 
-		 xlim=(-15,195), ylim=(-15,195))
+		stat_func=None, space=0, ratio=5 ,marginal_kws=dict(bins=50, color='r')) 
+		 #xlim=(-15,195), ylim=(-15,195))
 	g.set_axis_labels(xData + ' / degrees',yData + ' / degrees')
-	anText = "Data from " + structData # add timestamp 
-	g.fig.text(0.15, 0.05, anText, fontsize = 10)	
-	g.fig.suptitle('Dihedral Angle Magnitude Comparison')
-	g.ax_joint.xaxis.set_major_locator(ticker.MultipleLocator(30))
-	g.ax_joint.yaxis.set_major_locator(ticker.MultipleLocator(30))
+	anText = "Data from " + structData # add timestamp/version
+	g.fig.text(0.5, 0.05, anText, horizontalalignment='center', verticalalignment='bottom', fontsize = 10)	
+	versionText = "CDS version " + str(int(csd_version())*0.01) + ". Date: " + datetime.datetime.now().strftime ("%m/%d/%Y")
+	g.fig.text(0.5, 0, versionText, horizontalalignment='center', verticalalignment='bottom', fontsize = 10)	
+	g.fig.suptitle(title)
+	#set these different for t vs a 
+	if xData[0] == 'T':	
+		g.ax_joint.xaxis.set_major_locator(ticker.MultipleLocator(30))
+	if yData[0] == 'T':	
+		g.ax_joint.yaxis.set_major_locator(ticker.MultipleLocator(30))
 	plt.setp(g.ax_marg_y.patches, color='g')
 	plt.subplots_adjust(left=0.2, right=0.9, top=0.9, bottom=0.2) 
 	cax = g.fig.add_axes([.9, .4, .01, .25])  # x, y, width, height
-	plt.colorbar(cax=cax)
+	plt.colorbar(cax=cax, format='%.0f')
 	plt.show()
-
-	#matplotlib's hexplot (colorbar adjusts, no histograms)
-	# fig, ax = plt.subplots()
-	# #hb = ax.scatter(hitData[xData], hitData[yData])
-	# hb = ax.hexbin(hitData[xData], hitData[yData], gridsize=100, cmap='Blues')
-	# cb = fig.colorbar(hb, ax=ax)
-	# plt.show()
-
-	#jointplot scatter (no colorbar, just points)
-	# j = sns.jointplot(x=xData, y=yData,data=hitData, color='b')
-	# plt.subplots_adjust(left=0.2, right=0.9, top=0.9, bottom=0.2) 
-	# cax = j.fig.add_axes([.9, .4, .01, .25])  # x, y, width, height
-	# c = plt.colorbar(j, cax=j.ax_joint)
-	# plt.show()

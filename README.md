@@ -48,8 +48,7 @@ Removes a search limit and exports the resulting structural data:
 * Need to find out how to access indices of hydrogen atoms given a SMILES string
 * Need to add error checking for indices/smiles inputs
 * UserWarning occurs when generating the graph since 'normed' kwarg is depricated.
-* Need to work on making the plot more versitile graphing distances/angles, currently works best for comparing torsion angles.
-* Colorbar ticks are not accurate 
+* Need to work on making the plot more versatile graphing distances/angles, currently works best for comparing torsion angles.
 	
 ## Other Notes
 * If a measurement is not specified or indices of a measurement are not given,
