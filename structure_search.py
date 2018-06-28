@@ -306,6 +306,9 @@ if saveData:
 	hitData.to_csv(filename)
 	print('file saved to: ' + filename) 
 
+if len(hitData.columns) < 3:
+	graph = False
+
 #optionally graph, asking user which data to display, formatting graph and axes titles
 if graph:
 	if len(hitData.columns) == 3:
@@ -336,36 +339,34 @@ if graph:
 				break
 		xData = hitData.columns[ans[0]+1]
 		yData = hitData.columns[ans[1]+1]	
-		if xData[0] == 'T' and yData[0] == 'T':
-			title = 'Dihedral Angle Magnitude Comparison'
-			xax = xData + ' / degrees'
-			yax = yData + ' / degrees'
-		elif xData[0] == 'A' and yData[0] == 'A':
-			title = 'Angle Magnitude Comparison'
-			xax = xData + ' / degrees'
-			yax = yData + ' / degrees'
-		elif xData[0] == 'D' and yData[0] == 'D':
-			title = 'Distance Comparison'
-			xax = xData + r' / $\AA$'
-			yax = yData + r' / $\AA$'
-		elif any(i in xData for i in ['A', 'T']) and any(item in yData for item in ['A', 'T']):
-			title = 'Dihedral Angle vs. Angle Magnitude Comparison'
-			xax = xData + ' / degrees'
-			yax = yData + ' / degrees'
-		elif any(i in xData for i in ['D']) and any(item in yData for item in ['A', 'T']):
-			title = 'Distance vs. Angle Magnitude Comparison'
-			xax = xData + r' / $\AA$'
-			yax = yData + ' / degrees'
-		elif any(i in xData for i in ['A', 'T']) and any(item in yData for item in ['D']):
-			title = 'Angle Magnitude Comparison vs Distance'
-			xax = xData + ' / degrees'
-			yax = yData + r' / $\AA$'
-		else: 
-			title = 'Angular Magnitude Comparison'
-			
-		print('Graphing \'' + xData + '\' vs \'' + yData + '\'...')
-	elif len(hitData.columns) < 3:
-		graph = False
+	if xData[0] == 'T' and yData[0] == 'T':
+		title = 'Dihedral Angle Magnitude Comparison'
+		xax = xData + ' / degrees'
+		yax = yData + ' / degrees'
+	elif xData[0] == 'A' and yData[0] == 'A':
+		title = 'Angle Magnitude Comparison'
+		xax = xData + ' / degrees'
+		yax = yData + ' / degrees'
+	elif xData[0] == 'D' and yData[0] == 'D':
+		title = 'Distance Comparison'
+		xax = xData + r' / $\AA$'
+		yax = yData + r' / $\AA$'
+	elif any(i in xData for i in ['A', 'T']) and any(item in yData for item in ['A', 'T']):
+		title = 'Dihedral Angle vs. Angle Magnitude Comparison'
+		xax = xData + ' / degrees'
+		yax = yData + ' / degrees'
+	elif any(i in xData for i in ['D']) and any(item in yData for item in ['A', 'T']):
+		title = 'Distance vs. Angle Magnitude Comparison'
+		xax = xData + r' / $\AA$'
+		yax = yData + ' / degrees'
+	elif any(i in xData for i in ['A', 'T']) and any(item in yData for item in ['D']):
+		title = 'Angle Magnitude Comparison vs Distance'
+		xax = xData + ' / degrees'
+		yax = yData + r' / $\AA$'
+	else: 
+		title = 'Angular Magnitude Comparison'
+		
+	print('Graphing \'' + xData + '\' vs \'' + yData + '\'...')
 
 	#Joint plot Creator
 		#gridsize: larger # = smaller hexagons
