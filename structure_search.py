@@ -67,7 +67,7 @@ def addAngle(atom = None, askIndex = False):
 			print(i.index, i)
 		while True:
 			try:
-				atom_i = input("Enter three indices to measure a distance (# # #): ")
+				atom_i = input("Enter three indices to measure an angle (# # #): ")
 				atom_i = list(map(int, atom_i.split()))
 			except ValueError:
 				print('Try Again with three numbers')
@@ -100,7 +100,7 @@ def addTor(atom = None, askIndex = False):
 			print(i.index, i)
 		while True:
 			try:
-				atom_i = input("Enter four indices to measure a distance (# # # #): ")
+				atom_i = input("Enter four indices to measure a torsion angle (# # # #): ")
 				atom_i = list(map(int, atom_i.split()))
 			except ValueError:
 				print('Try Again with four numbers')
@@ -226,7 +226,7 @@ if len(sys.argv) > 2:
 	arguments = sys.argv
 	del arguments[0:2]
 	parseArgs(arguments)
-	if ('d' and 'a' and 't') not in sys.argv:
+	if not any(i in sys.argv for i in ['d', 'a', 't']):
 		ans = input('Search for any specific measurements on this molecule? (y/n): ')
 		if ans == 'y':
 			ans = input('Which measurements? \nEnter d for distance, a for angle, t for torsion angle: ')
@@ -291,10 +291,6 @@ hitData = pd.DataFrame(columns=columns)
 hitData['Identifier'] = ids
 for i in np.arange(len(measureHits)):
 	hitData[columns[i+1]] = np.absolute(measureHits[i])
-	
-#optionally print data to user
-if printData:
-	print(hitData.to_string())
 		
 #print useful search data info to user 		
 structData = str(len(hitData.Identifier)) + ' matching substructures in '+ str(len(hitData.Identifier.unique())) + ' different molecules.'
@@ -308,6 +304,12 @@ if saveData:
 
 if len(hitData.columns) < 3:
 	graph = False
+	print(hitData.to_string())
+	printData = False
+
+#optionally print data to user
+if printData:
+	print(hitData.to_string())
 
 #optionally graph, asking user which data to display, formatting graph and axes titles
 if graph:
@@ -351,15 +353,15 @@ if graph:
 		title = 'Distance Comparison'
 		xax = xData + r' / $\AA$'
 		yax = yData + r' / $\AA$'
-	elif any(i in xData for i in ['A', 'T']) and any(item in yData for item in ['A', 'T']):
+	elif any(i in xData for i in ['A', 'T']) and any(i in yData for i in ['A', 'T']):
 		title = 'Dihedral Angle vs. Angle Magnitude Comparison'
 		xax = xData + ' / degrees'
 		yax = yData + ' / degrees'
-	elif any(i in xData for i in ['D']) and any(item in yData for item in ['A', 'T']):
+	elif any(i in xData for i in ['D']) and any(i in yData for i in ['A', 'T']):
 		title = 'Distance vs. Angle Magnitude Comparison'
 		xax = xData + r' / $\AA$'
 		yax = yData + ' / degrees'
-	elif any(i in xData for i in ['A', 'T']) and any(item in yData for item in ['D']):
+	elif any(i in xData for i in ['A', 'T']) and any(i in yData for i in ['D']):
 		title = 'Angle Magnitude Comparison vs Distance'
 		xax = xData + ' / degrees'
 		yax = yData + r' / $\AA$'
@@ -381,10 +383,10 @@ if graph:
 	g.fig.text(0.5, 0, versionText, horizontalalignment='center', verticalalignment='bottom', fontsize = 10)	
 	g.fig.suptitle(title)
 	#add specific ticks for torsion angles
-	if xData[0] == 'T':	
-		g.ax_joint.xaxis.set_major_locator(ticker.MultipleLocator(30))
-	if yData[0] == 'T':	
-		g.ax_joint.yaxis.set_major_locator(ticker.MultipleLocator(30))
+	# if xData[0] == 'T':	
+	# 	g.ax_joint.xaxis.set_major_locator(ticker.MultipleLocator(30))
+	# if yData[0] == 'T':	
+	# 	g.ax_joint.yaxis.set_major_locator(ticker.MultipleLocator(30))
 	plt.setp(g.ax_marg_y.patches, color='g')
 	plt.subplots_adjust(left=0.2, right=0.9, top=0.9, bottom=0.2) 
 	cax = g.fig.add_axes([.9, .4, .01, .25])
