@@ -15,8 +15,19 @@ may be included in the command argument. If the indices are not known, the
 types of measurement may still be specified. If no measurements are 
 specified, the user will later be given the option to add measurements.
 A structure search may still take place with no parameters. User has the 
-option to export the data in a .CSV file.
+option to export the data as a .CSV file.
 	
+## Package Dependencies
+| Name           |
+| :------------: |
+| csd-python-api | 
+| future         |
+| matplotlib     | 
+| numpy          | 
+| pandas         | 
+| seaborn        | 
+
+
 ## Optional Arguments
 * SMILES string (encased in quotations if illegal characters are involved)
 * d (distance measurement) followed by two atom indices (also optional)
@@ -25,9 +36,9 @@ option to export the data in a .CSV file.
 * s (save data) exports data as a c2m file 
 * lim (search hit limit) followed by a number to limit the number of search hits
 * p (print) prints the data to the command line
-* g (graph) turns graphing of two measurements off (default behavior is on)
+* g (graph) turns graphing of two measurements off (default behavior displays graph)
 	
-## Sample Arguments
+### Sample Arguments
 Measures two torsion angles with specified indices:
 ```
 'S=C([NH]c1ccccc1)[NH]c1ccccc1' t 0 1 2 3 t 0 1 9 10
@@ -46,11 +57,14 @@ Removes a search limit and exports the resulting structural data:
 ```
   
 ## Known Bugs
-* Need to find out how to access indices of hydrogen atoms given a SMILES string
-* UserWarning occurs when generating the graph since 'normed' kwarg is depricated
+* Unable to access indices of hydrogen atoms given a SMILES string.
+* UserWarning occurs when generating the graph since 'normed' kwarg is depricated.
 	
 ## Other Notes
 * If a measurement is not specified or indices of a measurement are not given,
 	interaction with the terminal is required.
 * The default search limit is 1000 structures.
+
+## Authors
+* **Guilian Luchini** - *Initial work*
 	

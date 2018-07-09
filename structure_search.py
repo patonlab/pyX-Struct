@@ -23,12 +23,15 @@ maxHits = 1000			#Max number of hits until the search ends, default at 1000
 measurement = np.zeros(shape=(3,2))
 
 #for adding a distance measurement
-def addDist(atom = None, askIndex = False):
+def addDist(atom = None, askIndex = False,):
 	global substructure, substructure_search, sub_id, measurement
 	name = 'D'+str(int(measurement[0][1]))
+	addM = True
 	if not askIndex: 
 		substructure_search.add_distance_measurement(name,
 			sub_id, atom[0], sub_id, atom[1])
+		print('Distance', name, 'added to the search.')
+		measurement[0][1] += 1
 	else: 
 		for i in substructure.atoms:
 			print(i.index, i)
@@ -37,8 +40,12 @@ def addDist(atom = None, askIndex = False):
 				atom_i = input("Enter two indices to measure a distance (# #): ")
 				atom_i = list(map(int, atom_i.split()))
 			except ValueError:
-				print('Try Again with two numbers')
-				continue
+				if atom_i == 'q':
+					addM = False
+					break
+				else:
+					print('Try Again with two numbers')
+					continue
 			if len(atom_i) != 2:
 				print('Try Again with two numbers')
 				continue
@@ -50,18 +57,22 @@ def addDist(atom = None, askIndex = False):
 				continue 
 			else:
 				break
-		substructure_search.add_distance_measurement(name,
-			sub_id, atom_i[0], sub_id, atom_i[1])
-	print('Distance', name, 'added to the search.')
-	measurement[0][1] += 1
+		if addM:
+			substructure_search.add_distance_measurement(name,
+				sub_id, atom_i[0], sub_id, atom_i[1])
+			print('Distance', name, 'added to the search.')
+			measurement[0][1] += 1
 
 #for adding an angle measurement		
 def addAngle(atom = None, askIndex = False):
 	global substructure, substructure_search, sub_id, measurement
 	name = 'A'+str(int(measurement[1][1]))
+	addM = True
 	if not askIndex: 
 		substructure_search.add_angle_measurement(name,
 			sub_id, atom[0], sub_id, atom[1], sub_id, atom[2])
+		print('Angle', name, "added to the search.")		
+		measurement[1][1] += 1
 	else: 
 		for i in substructure.atoms:
 			print(i.index, i)
@@ -70,8 +81,12 @@ def addAngle(atom = None, askIndex = False):
 				atom_i = input("Enter three indices to measure an angle (# # #): ")
 				atom_i = list(map(int, atom_i.split()))
 			except ValueError:
-				print('Try Again with three numbers')
-				continue
+				if atom_i == 'q':
+					addM = False
+					break
+				else:
+					print('Try Again with three numbers')
+					continue
 			if len(atom_i) != 3:
 				print('Try Again with three numbers')
 				continue
@@ -83,18 +98,22 @@ def addAngle(atom = None, askIndex = False):
 				continue 
 			else:
 				break
-		substructure_search.add_angle_measurement(name,
-			sub_id, atom_i[0], sub_id, atom_i[1], sub_id, atom_i[2])	
-	print('Angle', name, "added to the search.")		
-	measurement[1][1] += 1
-
+		if addM:
+			substructure_search.add_angle_measurement(name,
+				sub_id, atom_i[0], sub_id, atom_i[1], sub_id, atom_i[2])	
+			print('Angle', name, "added to the search.")		
+			measurement[1][1] += 1
+	
 #for adding a torsion angle measurement		
 def addTor(atom = None, askIndex = False):
 	global substructure, substructure_search, sub_id, measurement
 	name = 'TOR'+str(int(measurement[2][1]))
+	addM = True
 	if not askIndex: 
 		substructure_search.add_torsion_angle_measurement(name,
 			sub_id, atom[0], sub_id, atom[1], sub_id, atom[2], sub_id, atom[3])
+		print('Torsion', name, "added to the search.")			
+		measurement[2][1] += 1
 	else: 
 		for i in substructure.atoms:
 			print(i.index, i)
@@ -103,8 +122,12 @@ def addTor(atom = None, askIndex = False):
 				atom_i = input("Enter four indices to measure a torsion angle (# # # #): ")
 				atom_i = list(map(int, atom_i.split()))
 			except ValueError:
-				print('Try Again with four numbers')
-				continue
+				if atom_i == 'q':
+					addM = False
+					break
+				else:
+					print('Try Again with four numbers')
+					continue
 			if len(atom_i) != 4:
 				print('Try Again with four numbers')
 				continue
@@ -116,11 +139,11 @@ def addTor(atom = None, askIndex = False):
 				continue 
 			else:
 				break
-		substructure_search.add_torsion_angle_measurement(name,
-			sub_id, atom_i[0], sub_id, atom_i[1], sub_id, atom_i[2],sub_id, atom_i[3])
-	
-	print('Torsion', name, "added to the search.")			
-	measurement[2][1] += 1
+		if addM:
+			substructure_search.add_torsion_angle_measurement(name,
+				sub_id, atom_i[0], sub_id, atom_i[1], sub_id, atom_i[2],sub_id, atom_i[3])
+			print('Torsion', name, "added to the search.")			
+			measurement[2][1] += 1
 
 #parse out user given arguments
 def parseArgs(arg):
@@ -203,7 +226,7 @@ if len(sys.argv) == 1:
 		smiles = smiles[:-1]
 else:
 	smiles = sys.argv[1]
-	
+
 #Prepare a search, checking for invalid submissions
 while True:	
 	try:
@@ -228,25 +251,20 @@ if len(sys.argv) > 2:
 	parseArgs(arguments)
 	if not any(i in sys.argv for i in ['d', 'a', 't']):
 		ans = input('Search for any specific measurements on this molecule? (y/n): ')
-		if ans == 'y':
+		while ans == 'y':
 			ans = input('Which measurements? \nEnter d for distance, a for angle, t for torsion angle: ')
 			ans = list(map(str, ans.split()))
 			parseArgs(ans)
-		else: 
-			#user has no measurement parameters, dont graph anything and print the IDs
-			graph = False
-			printData = True
+			ans = input('Add any additional measurements? (y/n): ')
 else:
 	ans = input('Search for any specific measurements on this molecule? (y/n): ')
-	if ans == 'y':
+	while ans == 'y':
 		#ask which one, run method
 		ans = input('Which measurements? \nEnter d for distance, a for angle, t for torsion angle: ')
 		ans = list(map(str, ans.split()))
 		parseArgs(ans)
-	else: 
-		#user has no measurement parameters, dont graph anything and print the IDs
-		graph = False
-		printData = True
+		ans = input('Add any additional measurements? (y/n): ')
+			
 
 #for testing..		
 if search == False:
@@ -278,8 +296,8 @@ for i in np.arange(3):
 			mType = 'A'
 		else:
 			mType = 'TOR'
-			
 		columns.append(mType+str(j))
+		
 ids = []
 measureHits = [[] for _ in range(len(columns)-1)]
 for h in hits:
@@ -300,7 +318,7 @@ print('Found ' + structData)
 if saveData:
 	filename = os.getcwd() + '/search_' + datetime.datetime.now().strftime ("%H:%M:%S") + '.CSV'
 	hitData.to_csv(filename)
-	print('file saved to: ' + filename) 
+	print('File saved to: ' + filename) 
 
 if len(hitData.columns) < 3:
 	graph = False
@@ -368,11 +386,12 @@ if graph:
 	else: 
 		title = 'Angular Magnitude Comparison'
 		
+		
 	print('Graphing \'' + xData + '\' vs \'' + yData + '\'...')
 
 	#Joint plot Creator
-		#gridsize: larger # = smaller hexagons
-		#marginal_kws bins: smaller # = thicker histograms
+	#gridsize: larger # = smaller hexagons
+	#marginal_kws bins: smaller # = thicker histograms
 	sns.set(style='white', color_codes=True)
 	g = sns.jointplot(x=xData, y=yData,data=hitData, kind="hex",color='b', gridsize=30,
 		stat_func=None, space=0, ratio=5 ,marginal_kws=dict(bins=50, color='r')) 
@@ -383,12 +402,13 @@ if graph:
 	g.fig.text(0.5, 0, versionText, horizontalalignment='center', verticalalignment='bottom', fontsize = 10)	
 	g.fig.suptitle(title)
 	#add specific ticks for torsion angles
-	# if xData[0] == 'T':	
-	# 	g.ax_joint.xaxis.set_major_locator(ticker.MultipleLocator(30))
-	# if yData[0] == 'T':	
-	# 	g.ax_joint.yaxis.set_major_locator(ticker.MultipleLocator(30))
+	if xData[0] == 'T':	
+		g.ax_joint.xaxis.set_major_locator(ticker.MultipleLocator(30))
+	if yData[0] == 'T':	
+		g.ax_joint.yaxis.set_major_locator(ticker.MultipleLocator(30))
 	plt.setp(g.ax_marg_y.patches, color='g')
 	plt.subplots_adjust(left=0.2, right=0.9, top=0.9, bottom=0.2) 
 	cax = g.fig.add_axes([.9, .4, .01, .25])
 	plt.colorbar(cax=cax, format='%.0f')
 	plt.show()
+	
