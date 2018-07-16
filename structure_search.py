@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from ccdc.search import SMARTSSubstructure, SubstructureSearch 
 from ccdc import io
+from ccdc.molecule import Molecule
 
 #for testing
 search = True 			#True: the program will perform a search on the input SMILES
@@ -210,13 +211,16 @@ def parseArgs(arg):
 	#check if user wants to save data		
 	if 's' in arg:
 		saveData = True
+		print('Data will be saved.')
 	#check if user wants to print data to terminal
 	if 'p' in arg:
 		printData = True
+		print('Data will be printed.')
 	#check if user does not want to display a graph
 	if 'g' in arg:
 		graph = False
-			
+		print('Data will not be graphed.')
+		
 #if the user didn't pass any arguments, ask for a SMILES string
 if len(sys.argv) == 1:
 	smiles = input("Enter a SMILES string: ")
@@ -273,6 +277,7 @@ if search == False:
 #search the CDS for our specified query
 if maxHits == 0:
 	searchLimit = False
+	
 if searchLimit:
 	print('Searching for substructures with a limit of ' + str(maxHits) + ' max structures...')
 	hits = substructure_search.search(max_hit_structures=maxHits)
@@ -412,3 +417,52 @@ if graph:
 	plt.colorbar(cax=cax, format='%.0f')
 	plt.show()
 	
+
+crystals = []
+crystalhbonds = []
+crystalReader = io.EntryReader('CSD')
+criterion = Molecule.HBondCriterion()
+donortypes = criterion.donor_types
+
+for i in range(len(donortypes.keys())):
+	donortypes[donortypes.keys()[i]] = False
+
+donortypes['amide or thioamide N'] = True
+criterion.require_hydrogens = True
+
+print('Obtaining hydrogen bond data...')
+for i in range(len(hitData)):
+	crystals.append(crystalReader.crystal(hitData['Identifier'][i]))
+	crystalhbonds.append(crystals[i].hbonds(path_length_range=(-1,999),hbond_criterion=criterion))
+	
+
+	
+n1_label = []
+n2_label = []
+for i in range(len(hits)):
+	new_molecule = True
+	for j in range(len(hits[i].match_atoms())):
+		if hits[i].match_atoms()[j].atomic_number == 7:
+			if new_molecule:
+				n1_label.append(hits[i].match_atoms()[j].label)
+				new_molecule = False
+			else:
+				n2_label.append(hits[i].match_atoms()[j].label)
+	
+num_urea_hbonds = np.zeros(len(hits), dtype=int)
+for i in range(len(crystalhbonds)):
+	for j in range(len(crystalhbonds[i])):
+		for k in range(len(crystalhbonds[i][j].atoms)):
+			if n1_label[i] == crystalhbonds[i][j].atoms[k].label or n2_label[i] == crystalhbonds[i][j].atoms[k].label:
+				num_urea_hbonds[i] +=1
+				
+hitData['N1'] = n1_label
+hitData['N2'] = n2_label
+hitData['# Hbonds'] = num_urea_hbonds
+hitData['Hbonds'] = crystalhbonds
+
+
+
+filename = os.getcwd() + '/search_' + datetime.datetime.now().strftime ("%H:%M:%S") + '.CSV'
+hitData.to_csv(filename)
+print('File saved to: ' + filename) 

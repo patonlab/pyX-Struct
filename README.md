@@ -15,7 +15,9 @@ may be included in the command argument. If the indices are not known, the
 types of measurement may still be specified. If no measurements are 
 specified, the user will later be given the option to add measurements.
 A structure search may still take place with no parameters. User has the 
-option to export the data as a .CSV file.
+option to export the data as a .CSV file. 
+The program will search for hydrogen bonding from urea / thiourea nitrogens and 
+save the count results as a CSV.
 	
 ## Package Dependencies
 | Name           |
