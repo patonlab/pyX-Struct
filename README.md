@@ -70,3 +70,5 @@ Removes a search limit and exports the resulting structural data:
 ## Authors
 * **Guilian Luchini** - *Initial work*
 	
+---
+License: [CC-BY](https://creativecommons.org/licenses/by/3.0/)
