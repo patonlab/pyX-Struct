@@ -71,7 +71,7 @@ Removes a search limit and exports the resulting structural data:
 * **Guilian Luchini** - *Initial work*
 
 #### References
-* “The Cambridge Structural Database” Groom, C. R.; Bruno, I. J.; Lightfoot, M. P.; Ward, S. C.; *Acta Cryst. B*, **2016**, *B72*, 171-179
+1. “The Cambridge Structural Database” Groom, C. R.; Bruno, I. J.; Lightfoot, M. P.; Ward, S. C.; *Acta Cryst. B*, **2016**, *B72*, 171-179
 [**DOI:** 10.1107/S2052520616003954](http://dx.doi.org/10.1107/S2052520616003954)
 
 ---
