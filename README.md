@@ -1,6 +1,6 @@
 # pyX-Struct
 
-Scrape Geometric X-ray Data from the Cambridge Structural Database 
+Scrape Geometric X-ray Data from the Cambridge Structural Database<sup>1</sup> 
 
 ## Getting Started 
 
@@ -69,6 +69,10 @@ Removes a search limit and exports the resulting structural data:
 
 ## Authors
 * **Guilian Luchini** - *Initial work*
-	
+
+#### References
+* “The Cambridge Structural Database” Groom, C. R.; Bruno, I. J.; Lightfoot, M. P.; Ward, S. C.; *Acta Cryst. B*, **2016**, *B72*, 171-179
+(**DOI:** 10.1107/S2052520616003954)[http://dx.doi.org/10.1107/S2052520616003954]
+
 ---
 License: [CC-BY](https://creativecommons.org/licenses/by/3.0/)
