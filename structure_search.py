@@ -1,5 +1,8 @@
 from __future__ import print_function
-from builtins import input
+try:
+   from builtins import input
+except ImportError:
+   from __builtin__ import input
 import datetime
 import os
 import sys
