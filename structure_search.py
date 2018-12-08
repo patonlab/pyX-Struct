@@ -16,13 +16,13 @@ from ccdc import io
 from ccdc.molecule import Molecule
 from hbond_search import hbond_df_search
 
-#for testing
+#initial variables
 search = True             #True: the program will perform a search on the input SMILES
-graph = True            #True: the program will display angle or torsion data
-searchLimit = True         #True: the search is limited by the maxHits variable
-printData = False        #True: the data will print in the terminal for the user
-saveData = False        #True: Export data
-hbond = False            #False: Do not search for urea/thiourea hydrogen bonds by default
+graph = True              #True: the program will display angle or torsion data
+searchLimit = True        #True: the search is limited by the maxHits variable
+printData = False         #True: the data will print in the terminal for the user
+saveData = False          #True: Export data
+hbond = False             #False: Do not search for urea/thiourea hydrogen bonds by default
 maxHits = 1000            #Max number of hits until the search ends, default at 1000
 
 #number of measurements for naming purposes d, a, t respectively
@@ -442,18 +442,9 @@ if hbond:
                     new_molecule = False
                 else:
                     n2_label.append(hits[i].match_atoms()[j].label)
-            
-    # num_urea_hbonds = np.zeros(len(hits), dtype=int)
-    # for i in range(len(crystalhbonds)):
-    #     for j in range(len(crystalhbonds[i])):
-    #         for k in range(len(crystalhbonds[i][j].atoms)):
-    #             if n1_label[i] == crystalhbonds[i][j].atoms[k].label or n2_label[i] == crystalhbonds[i][j].atoms[k].label:
-    #                 num_urea_hbonds[i] +=1
                     
     hitData['N1'] = n1_label
     hitData['N2'] = n2_label
-    # hitData['# Hbonds'] = num_urea_hbonds
-    # hitData['Hbonds'] = crystalhbonds
 
     hitData = hbond_df_search(hitData)
 

@@ -13,8 +13,6 @@ to obtain crystal structures and hydrogen bonding data
 
 the input CSV must at least have data with columns Identifier, TOR0, TOR1, N1, N2
 
-maybe make an overloaded method that can take a csv or a dataframe so we can 
-use this file to obtain hbond data
 """
 
 def hbond_csv_search(CSV_arg,name):
