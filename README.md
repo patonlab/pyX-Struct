@@ -3,7 +3,7 @@
 pyX-Struct
 =========
 
-Scrape Geometric X-ray Data from the [Cambridge Structural Database](https://www.ccdc.cam.ac.uk/solutions/csd-system/components/csd/)<sup>1</sup> 
+Scrape Geometric X-ray Data from the [Cambridge Structural Database](https://www.ccdc.cam.ac.uk/solutions/csd-system/components/csd/).<sup>1</sup> This code has been used to carry out a quantitative comparison of the conformational preferences of diarylureas and diarylthioureas in the solid state.<sup>2</sup> 
 
 ## Getting Started 
 
@@ -83,7 +83,6 @@ Graphing 'D0' vs 'A0'...
 </p>
 
 
-
   
 ## Known Bugs
 * Unable to access indices of hydrogen atoms given a SMILES string.
@@ -98,6 +97,7 @@ Graphing 'D0' vs 'A0'...
 #### References
 1. “The Cambridge Structural Database” Groom, C. R.; Bruno, I. J.; Lightfoot, M. P.; Ward, S. C.; *Acta Cryst. B*, **2016**, *B72*, 171-179
 [**DOI:** 10.1107/S2052520616003954](http://dx.doi.org/10.1107/S2052520616003954)
+2. "Data-mining the Diaryl(thio)urea Conformational Landscape: Understanding the Contrasting Behavior of Ureas and Thioureas with Quantum Chemistry" Luchini, G.; Ascough, D. H. M.; Alegre-Requena, J. V.; Paton, R. S. *in review* **2018**
 
 ---
 License: [CC-BY](https://creativecommons.org/licenses/by/3.0/)
