@@ -1,5 +1,5 @@
-{% set name = "pyx-struct" %}
-{% set version = "1.0" %}
+{% set name = "pyxstruct" %}
+{% set version = "1.0.1" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: e7efd2b263290c40ed371228a6fc9311ef214f6f9b05092e77fe77c8f6cb1d94
+  sha256: ad91c99e9b256407ca9e0255815f5ef3c7d27b45a475ec2b4e5eac321ed8b740
 
 build:
   number: 0
@@ -30,7 +30,7 @@ requirements:
 
 test:
   imports:
-    - pyX-Struct
+    - pyxstruct
 
 about:
   home: https://github.com/bobbypaton/pyX-Struct
