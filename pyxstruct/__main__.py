@@ -11,7 +11,7 @@ if __package__ == '':
     path = os.path.dirname(os.path.dirname(__file__))
     sys.path.insert(0, path)
 
-from pyxstruct import structure_search.py
+from pyxstruct import structure_search
 
 if __name__ == '__main__':
     sys.exit(structure_search.main())
