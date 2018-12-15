@@ -1,0 +1,46 @@
+{% set name = "pyx-struct" %}
+{% set version = "1.0" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: e7efd2b263290c40ed371228a6fc9311ef214f6f9b05092e77fe77c8f6cb1d94
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv "
+
+requirements:
+  host:
+    - matplotlib
+    - numpy
+    - pandas
+    - pip
+    - python
+    - seaborn
+  run:
+    - matplotlib
+    - numpy
+    - pandas
+    - python
+    - seaborn
+
+test:
+  imports:
+    - pyX-Struct
+
+about:
+  home: https://github.com/bobbypaton/pyX-Struct
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE.txt 
+  summary: Scrape Geometric X-ray Data from the Cambridge Structural Database
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - bobbypaton
