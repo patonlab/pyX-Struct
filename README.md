@@ -1,5 +1,5 @@
 [![DOI](https://zenodo.org/badge/137907550.svg)](https://zenodo.org/badge/latestdoi/137907550)
-[pyX-Struct](pyx_struct_logo_transparent.png)
+![pyX-Struct](pyx_struct_logo_transparent.png)
 =========
 
 **pyX-Struct** provides a python interface to scrape geometric X-ray Data from the [Cambridge Structural Database](https://www.ccdc.cam.ac.uk/solutions/csd-system/components/csd/).<sup>1</sup> This code has been used to carry out a quantitative comparison of the conformational preferences of diarylureas and diarylthioureas in the solid state.<sup>2</sup> 
