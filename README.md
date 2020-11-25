@@ -97,7 +97,4 @@ Graphing 'D0' vs 'A0'...
 #### References
 1. “The Cambridge Structural Database” Groom, C. R.; Bruno, I. J.; Lightfoot, M. P.; Ward, S. C.; *Acta Cryst. B*, **2016**, *B72*, 171-179
 [**DOI:** 10.1107/S2052520616003954](http://dx.doi.org/10.1107/S2052520616003954)
-2. "Data-mining the Diaryl(thio)urea Conformational Landscape: Understanding the Contrasting Behavior of Ureas and Thioureas with Quantum Chemistry" Luchini, G.; Ascough, D. H. M.; Alegre-Requena, J. V.; Paton, R. S. *in review* **2018**
-
----
-License: [CC-BY](https://creativecommons.org/licenses/by/3.0/)
+2. "Data-mining the Diaryl(thio)urea Conformational Landscape: Understanding the Contrasting Behavior of Ureas and Thioureas with Quantum Chemistry" Luchini, G.; Ascough, D. H. M.; Alegre-Requena, J. V.; Gouverneur, V.; Paton, R. S. *Tetrahedron* **2019**, *75*, 697-702 [**DOI:** 10.1016/j.tet.2018.12.033](https://doi.org/10.1016/j.tet.2018.12.033)
