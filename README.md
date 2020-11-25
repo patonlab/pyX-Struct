@@ -1,5 +1,5 @@
 [![DOI](https://zenodo.org/badge/137907550.svg)](https://zenodo.org/badge/latestdoi/137907550)
-
+![pyX-Struct](pyx_struct_logo_transparent.png)
 
 =========
 
